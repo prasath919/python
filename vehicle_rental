@@ -1,0 +1,68 @@
+# Base class for Vehicle
+class Vehicle:
+    def _init_(self, vehicle_id, brand, model, rental_price):
+        self.vehicle_id = vehicle_id
+        self.brand = brand
+        self.model = model
+        self.rental_price = rental_price
+
+    def display_info(self):
+        return f"ID: {self.vehicle_id}, Brand: {self.brand}, Model: {self.model}, Price: {self.rental_price}"
+
+# Derived class for Car
+class Car(Vehicle):
+    def _init_(self, vehicle_id, brand, model, rental_price, num_doors):
+        super()._init_(vehicle_id, brand, model, rental_price)
+        self.num_doors = num_doors
+
+    def display_info(self):
+        return f"{super().display_info()}, Doors: {self.num_doors}"
+
+# Derived class for Bike
+class Bike(Vehicle):
+    def _init_(self, vehicle_id, brand, model, rental_price, bike_type):
+        super()._init_(vehicle_id, brand, model, rental_price)
+        self.bike_type = bike_type
+
+    def display_info(self):
+        return f"{super().display_info()}, Type: {self.bike_type}"
+
+# Class for Customer
+class Customer:
+    def _init_(self, customer_id, name, contact):
+        self.customer_id = customer_id
+        self.name = name
+        self.contact = contact
+
+    def display_info(self):
+        return f"Customer ID: {self.customer_id}, Name: {self.name}, Contact: {self.contact}"
+
+# Class for Rental
+class Rental:
+    def _init_(self, rental_id, vehicle, customer, rental_days):
+        if rental_days <= 0:
+            raise ValueError("Rental days must be a positive integer.")
+        self.rental_id = rental_id
+        self.vehicle = vehicle
+        self.customer = customer
+        self.rental_days = rental_days
+
+    def calculate_total_price(self):
+        return self.rental_days * self.vehicle.rental_price
+
+    def display_info(self):
+        return (f"Rental ID: {self.rental_id}, Vehicle: [{self.vehicle.display_info()}], "
+                f"Customer: [{self.customer.display_info()}], Days: {self.rental_days}, "
+                f"Total Price: {self.calculate_total_price()}")
+
+# Example usage
+car = Car(vehicle_id=1, brand="Toyota", model="Corolla", rental_price=50, num_doors=4)
+bike = Bike(vehicle_id=2, brand="Yamaha", model="MT-07", rental_price=30, bike_type="Sport")
+customer = Customer(customer_id=101, name="John Doe", contact="123-456-7890")
+
+# Creating a rental
+try:
+    rental = Rental(rental_id=1001, vehicle=car, customer=customer, rental_days=3)
+    print(rental.display_info())
+except ValueError as e:
+    print(e)
